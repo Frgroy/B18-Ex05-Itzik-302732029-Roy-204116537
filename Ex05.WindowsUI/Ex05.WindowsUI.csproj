@@ -54,6 +54,12 @@
       <DependentUpon>GameSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ex05.CheckersLogic\Ex05.CheckersLogic.csproj">
+      <Project>{7930e5b4-95df-4a64-9fa8-b6b666f23dda}</Project>
+      <Name>Ex05.CheckersLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

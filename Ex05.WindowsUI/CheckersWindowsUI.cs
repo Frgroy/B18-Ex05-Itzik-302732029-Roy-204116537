@@ -1,31 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using B18_Ex02;
 
 namespace Ex05.WindowsUI
 {
      public class CheckersWindowsUI
      {
-          private int m_BoardSize;
-          private string m_Player1Name;
-          private string m_Player2Name;
-          private bool m_IsAgainstUser;
-
+          private CheckersForm m_CheckersForm;
           public void Run()
           {
-               GameSettingsForm gameSettingsForm = new GameSettingsForm();
-               gameSettingsForm.ShowDialog();
-               getSettings(gameSettingsForm);
-               CheckersForm checkersForm = new CheckersForm(m_BoardSize, m_Player1Name, m_Player2Name);
-               checkersForm.ShowDialog();
+               m_CheckersForm = new CheckersForm();
+               m_CheckersForm.ShowDialog();
           }
 
-          private void getSettings(GameSettingsForm i_GameSettingsForm)
-          {
-               m_BoardSize = i_GameSettingsForm.BoardSize;
-               m_Player1Name = i_GameSettingsForm.Player1Name;
-               m_Player2Name = i_GameSettingsForm.Player2Name;
-               m_IsAgainstUser = i_GameSettingsForm.IsAgainstUser;
-          }
+
      }
 }
