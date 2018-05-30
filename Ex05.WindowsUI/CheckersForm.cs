@@ -14,6 +14,7 @@ namespace Ex05.WindowsUI
           private CheckersGame m_Game;
           private GameSettingsForm m_GameSettingsForm;
           private Move m_RequestedMove = new Move();
+          private Square m_SourceSquare = null;
 
           public CheckersForm()
           {
@@ -75,6 +76,11 @@ namespace Ex05.WindowsUI
 
           private void assignMenToButtons()
           {
+               foreach (BoardButton button in SquareButtons)
+               {
+                    button.Text = null;
+               }
+
                foreach (Man man in m_Game.ActiveTeam.ArmyOfMen)
                {
                     SquareButtons[man.CurrentPosition.Position.y, man.CurrentPosition.Position.x].AddManToButton(man);
@@ -92,7 +98,7 @@ namespace Ex05.WindowsUI
                {
                     SquareButtons[attackMove.SourceSquare.Position.y, attackMove.SourceSquare.Position.x].Enabled = true;
                }
-               
+
                if (m_Game.ActiveTeam.AttackMoves.Count == 0)
                {
                     foreach (Move regularMove in m_Game.ActiveTeam.RegularMoves)
@@ -134,11 +140,52 @@ namespace Ex05.WindowsUI
           private void BoardButton_Click(object sender, EventArgs e)
           {
                BoardButton button = sender as BoardButton;
-               button.BackColor = System.Drawing.Color.LightBlue;
-               m_RequestedMove.SourceSquare = m_Game.Board.GetSquare(button.Position.y, button.Position.x);
-               updateDestinationButtonsAvailability(button);
-               button.Click -= new System.EventHandler(BoardButton_Click);
-               button.Click += new System.EventHandler(BoardButton_SecondClick);
+               if (m_SourceSquare == null)
+               {
+                    m_SourceSquare = m_Game.Board.GetSquare(button.Position.y, button.Position.x);
+                    button.BackColor = System.Drawing.Color.LightBlue;
+                    updateDestinationButtonsAvailability(button);
+               }
+               else if (button.BackColor == System.Drawing.Color.LightBlue)
+               {
+                    button.BackColor = System.Drawing.Color.White;
+                    assignMenToButtons();
+                    updateSourceButtonsAvailability();
+               }
+               else
+               {
+                    Move requestedMove = moveCreation(m_SourceSquare, m_Game.Board.GetSquare(button.Position.y, button.Position.x));
+                    m_Game.MakeAMoveProcess(requestedMove);
+                    m_Game.SwapActiveTeam();
+                    assignMenToButtons();
+                    updateSourceButtonsAvailability();
+               }
+          }
+
+          private Move moveCreation(Square i_SourceSquare, Square i_DestinationSquare)
+          {
+               Move requestedMove = new Move();
+               foreach (Move attackMove in m_Game.ActiveTeam.AttackMoves)
+               {
+                    if (i_SourceSquare.Position.Equals(attackMove.SourceSquare.Position) &&
+                         i_DestinationSquare.Position.Equals(attackMove.DestinationSquare.Position))
+                    {
+                         requestedMove = attackMove;
+                         break;
+                    }
+               }
+
+               foreach (Move regularMove in m_Game.ActiveTeam.RegularMoves)
+               {
+                    if (i_SourceSquare.Position.Equals(regularMove.SourceSquare.Position) &&
+                         i_DestinationSquare.Position.Equals(regularMove.DestinationSquare.Position))
+                    {
+                         requestedMove = regularMove;
+                         break;
+                    }
+               }
+
+               return requestedMove;
           }
 
           private void BoardButton_SecondClick(object sender, EventArgs e)
@@ -148,8 +195,6 @@ namespace Ex05.WindowsUI
                {
                     button.BackColor = System.Drawing.Color.White;
                     m_RequestedMove.SourceSquare = null;
-                    button.Click -= new System.EventHandler(BoardButton_SecondClick);
-                    button.Click += new System.EventHandler(BoardButton_Click);
                }
                else
                {
@@ -198,7 +243,7 @@ namespace Ex05.WindowsUI
                get { return m_Position; }
           }
 
-          public void AddManToButton (Man i_Man)
+          public void AddManToButton(Man i_Man)
           {
                this.Text = i_Man.Sign.ToString();
           }
