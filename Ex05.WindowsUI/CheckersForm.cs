@@ -167,7 +167,7 @@ namespace Ex05.WindowsUI
                     {
                          if (m_Game.IsEndOfRound())
                          {
-                              handleEndOfRound(m_Game.Status);
+                              handleEndOfRound();
                          }
                          else
                          {
@@ -233,7 +233,8 @@ namespace Ex05.WindowsUI
                }
                if (m_Game.IsEndOfRound())
                {
-                    handleEndOfRound(m_Game.Status);
+                    handleEndOfRound();
+
                }
                else
                {
@@ -241,9 +242,18 @@ namespace Ex05.WindowsUI
                }
           }
 
-          private void handleEndOfRound(CheckersGame.eGameStatus i_gameStatus)
+          private void handleEndOfRound()
           {
-               string endOfRoundMessage = string.Format(@"{0}!{1} Another Round?", i_gameStatus.ToString(), Environment.NewLine);
+               string endOfRoundMessage;
+               if (m_Game.Status == CheckersGame.eGameStatus.RoundEndWithDraw)
+               {
+                    endOfRoundMessage = string.Format(@"Tie!{1}Another Round?", m_Game.Status.ToString(), Environment.NewLine);
+               }
+               else
+               {
+                    endOfRoundMessage = string.Format(@"{0} Won!{1}Another Round?", m_Game.ActiveTeam.Name, Environment.NewLine);
+               }
+
                DialogResult dialogResult = MessageBox.Show(endOfRoundMessage , "Checkers", MessageBoxButtons.YesNo);
                if (dialogResult == DialogResult.Yes)
                {
