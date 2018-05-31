@@ -20,7 +20,7 @@ namespace Ex05.WindowsUI
           {
                this.Text = "Checkers";
                this.StartPosition = FormStartPosition.CenterScreen;
-               this.BackColor = System.Drawing.Color.NavajoWhite;
+               this.BackColor = System.Drawing.Color.FloralWhite;
                this.AutoSize = true;
                m_GameSettingsForm = new GameSettingsForm();
                m_GameSettingsForm.ShowDialog();
