@@ -188,14 +188,14 @@ namespace Ex05.WindowsUI
                assignMenToButtons();
                updateSourceButtonsAvailability();
                chooseDestinationSquare(i_BoardButton);
-               i_BoardButton.BackColor = System.Drawing.Color.Blue;
+               i_BoardButton.BackColor = System.Drawing.Color.Linen;
                i_BoardButton.Enabled = false;
           }
 
           private void chooseDestinationSquare(BoardButton i_BoardButton)
           {
                m_SourceSquare = m_Game.Board.GetSquare(i_BoardButton.Position.y, i_BoardButton.Position.x);
-               i_BoardButton.BackColor = System.Drawing.Color.LightBlue;
+               i_BoardButton.BackColor = System.Drawing.Color.PaleTurquoise;
                updateDestinationButtonsAvailability(i_BoardButton);
           }
 
