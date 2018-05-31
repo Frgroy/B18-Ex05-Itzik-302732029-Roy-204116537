@@ -20,6 +20,7 @@ namespace Ex05.WindowsUI
           {
                this.Text = "Checkers";
                this.StartPosition = FormStartPosition.CenterScreen;
+               this.BackColor = System.Drawing.Color.NavajoWhite;
                this.AutoSize = true;
                m_GameSettingsForm = new GameSettingsForm();
                m_GameSettingsForm.ShowDialog();
@@ -97,7 +98,7 @@ namespace Ex05.WindowsUI
           {
                i_BoardButton.Text = null;
                i_BoardButton.Enabled = false;
-               i_BoardButton.BackColor = System.Drawing.Color.White;
+               i_BoardButton.BackColor = System.Drawing.Color.NavajoWhite;
           }
           private void updateSourceButtonsAvailability()
           {
@@ -181,8 +182,8 @@ namespace Ex05.WindowsUI
 
           private void handleProgressiveMove(BoardButton i_BoardButton)
           {
-               i_BoardButton.BackColor = System.Drawing.Color.White;
-               SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.White;
+               i_BoardButton.BackColor = System.Drawing.Color.NavajoWhite;
+               SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.NavajoWhite;
                m_SourceSquare = null;
                assignMenToButtons();
                updateSourceButtonsAvailability();
@@ -200,8 +201,8 @@ namespace Ex05.WindowsUI
 
           private void endUserTurn(BoardButton i_BoardButton)
           {
-               i_BoardButton.BackColor = System.Drawing.Color.White;
-               SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.White;
+               i_BoardButton.BackColor = System.Drawing.Color.NavajoWhite;
+               SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.NavajoWhite;
                m_SourceSquare = null;
                assignMenToButtons();
                updateSourceButtonsAvailability();
@@ -314,11 +315,11 @@ namespace Ex05.WindowsUI
                m_Position.x = i_Col;
                if ((m_Position.y + m_Position.x) % 2 == 0)
                {
-                    this.BackColor = System.Drawing.Color.Black;
+                    this.BackColor = System.Drawing.Color.Peru;
                }
                else
                {
-                    this.BackColor = System.Drawing.Color.White;
+                    this.BackColor = System.Drawing.Color.NavajoWhite;
                     m_IsActive = true;
                }
           }
@@ -335,8 +336,7 @@ namespace Ex05.WindowsUI
 
           public int Col
           {
-               get
-               { return m_Position.x; }
+               get { return m_Position.x; }
           }
 
           public Square.SquarePosition Position
