@@ -13,21 +13,33 @@ namespace Ex05.WindowsUI
           private BoardButton[,] SquareButtons;
           private CheckersGame m_Game;
           private GameSettingsForm m_GameSettingsForm;
-          private Move m_RequestedMove = new Move();
           private Square m_SourceSquare = null;
-
+          
           public CheckersForm()
           {
                this.Text = "Checkers";
-               this.StartPosition = FormStartPosition.CenterScreen;
+               this.StartPosition = FormStartPosition.WindowsDefaultLocation;
                this.BackColor = System.Drawing.Color.FloralWhite;
+               this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+               this.MaximizeBox = false;
+               this.MinimizeBox = false;
                this.AutoSize = true;
-               m_GameSettingsForm = new GameSettingsForm();
-               m_GameSettingsForm.ShowDialog();
+               this.Load += CheckersForm_Load;
+               this.Shown += CheckersForm_Shown;
+          }
+
+          private void CheckersForm_Shown(object sender, EventArgs e)
+          {
                m_Game = new CheckersGame(m_GameSettingsForm.Player1Name, m_GameSettingsForm.Player2Name, m_GameSettingsForm.BoardSize, m_GameSettingsForm.GameMode);
                initControls();
                assignMenToButtons();
                updateSourceButtonsAvailability();
+          }
+
+          private void CheckersForm_Load(object sender, EventArgs e)
+          {
+               m_GameSettingsForm = new GameSettingsForm();
+               m_GameSettingsForm.ShowDialog();
           }
 
           private void initControls()
@@ -100,19 +112,20 @@ namespace Ex05.WindowsUI
                i_BoardButton.Enabled = false;
                i_BoardButton.BackColor = System.Drawing.Color.NavajoWhite;
           }
+
           private void updateSourceButtonsAvailability()
           {
-               foreach (Move attackMove in m_Game.ActiveTeam.AttackMoves)
+               foreach (BoardButton button in SquareButtons)
                {
-                    SquareButtons[attackMove.SourceSquare.Position.y, attackMove.SourceSquare.Position.x].Enabled = true;
+                    if (button.Active)
+                    {
+                         button.Enabled = false;
+                    }
                }
 
-               if (m_Game.ActiveTeam.AttackMoves.Count == 0)
+               foreach (Man man in m_Game.ActiveTeam.ArmyOfMen)
                {
-                    foreach (Move regularMove in m_Game.ActiveTeam.RegularMoves)
-                    {
-                         SquareButtons[regularMove.SourceSquare.Position.y, regularMove.SourceSquare.Position.x].Enabled = true;
-                    }
+                    SquareButtons[man.CurrentPosition.Position.y, man.CurrentPosition.Position.x].Enabled = true;
                }
           }
 
@@ -120,26 +133,9 @@ namespace Ex05.WindowsUI
           {
                foreach (BoardButton button in SquareButtons)
                {
-                    button.Enabled = false;
-               }
-
-               SquareButtons[i_BoardButton.Position.y, i_BoardButton.Position.x].Enabled = true;
-               foreach (Move attackMove in m_Game.ActiveTeam.AttackMoves)
-               {
-                    if (attackMove.SourceSquare.Position.Equals(i_BoardButton.Position))
+                    if (button.Active)
                     {
-                         SquareButtons[attackMove.DestinationSquare.Position.y, attackMove.DestinationSquare.Position.x].Enabled = true;
-                    }
-               }
-
-               if (m_Game.ActiveTeam.AttackMoves.Count == 0)
-               {
-                    foreach (Move regularMove in m_Game.ActiveTeam.RegularMoves)
-                    {
-                         if (regularMove.SourceSquare.Position.Equals(i_BoardButton.Position))
-                         {
-                              SquareButtons[regularMove.DestinationSquare.Position.y, regularMove.DestinationSquare.Position.x].Enabled = true;
-                         }
+                         button.Enabled = true;
                     }
                }
           }
@@ -153,32 +149,48 @@ namespace Ex05.WindowsUI
                }
                else if (m_SourceSquare.Position.Equals(SquareButtons[button.Position.y, button.Position.x].Position))
                {
-                    endUserTurn(button);
+                    endUserChoise(button);
                }
                else
                {
-                    Move requestedMove = moveCreation(m_SourceSquare, m_Game.Board.GetSquare(button.Position.y, button.Position.x));
-                    m_Game.MakeAMoveProcess(requestedMove);
-                    if (m_Game.IsProgressiveMoveAvailable(requestedMove))
-                    {
-                         handleProgressiveMove(button);
-                    }
-
-                    else
-                    {
-                         if (m_Game.IsEndOfRound())
-                         {
-                              handleEndOfRound();
-                         }
-                         else
-                         {
-                              m_Game.SwapActiveTeam();
-                              endUserTurn(button);
-                         }
-                    } 
+                    handleMoveRequest(button);
                }
           }
 
+          private void handleMoveRequest(BoardButton i_BoardButton)
+          {
+               if (m_Game.IsLegalMove(m_SourceSquare, m_Game.Board.GetSquare(i_BoardButton.Position.y, i_BoardButton.Position.x)))
+               {
+                    makeAMoveProcess(i_BoardButton);     
+               }
+               else
+               {
+                    MessageBox.Show("Illegal Move.");
+               }
+          }
+
+          private void makeAMoveProcess(BoardButton i_BoardButton)
+          {
+               Move requestedMove = moveCreation(m_SourceSquare, m_Game.Board.GetSquare(i_BoardButton.Position.y, i_BoardButton.Position.x));
+               m_Game.MakeAMoveProcess(requestedMove);
+               if (m_Game.IsProgressiveMoveAvailable(requestedMove))
+               {
+                    handleProgressiveMove(i_BoardButton);
+               }
+
+               else
+               {
+                    if (m_Game.IsEndOfRound())
+                    {
+                         handleEndOfRound();
+                    }
+                    else
+                    {
+                         m_Game.SwapActiveTeam();
+                         endUserChoise(i_BoardButton);
+                    }
+               }
+          }
 
           private void handleProgressiveMove(BoardButton i_BoardButton)
           {
@@ -199,7 +211,7 @@ namespace Ex05.WindowsUI
                updateDestinationButtonsAvailability(i_BoardButton);
           }
 
-          private void endUserTurn(BoardButton i_BoardButton)
+          private void endUserChoise(BoardButton i_BoardButton)
           {
                i_BoardButton.BackColor = System.Drawing.Color.NavajoWhite;
                SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.NavajoWhite;
@@ -302,8 +314,6 @@ namespace Ex05.WindowsUI
           }
      }
 
-
-
      public class BoardButton : Button
      {
           Square.SquarePosition m_Position = new Square.SquarePosition();
@@ -316,6 +326,7 @@ namespace Ex05.WindowsUI
                if ((m_Position.y + m_Position.x) % 2 == 0)
                {
                     this.BackColor = System.Drawing.Color.Peru;
+                    this.Enabled = false; 
                }
                else
                {

@@ -276,6 +276,33 @@ namespace B18_Ex02
                return isEndOfRound;
           }
 
+          public bool IsLegalMove(Square i_SourceSquare, Square i_DestinationSquare)
+          {
+               bool isLegalMove = false;
+               foreach (Move attackMove in m_ActiveTeam.AttackMoves)
+               {
+                    if (attackMove.SourceSquare.Position.Equals(i_SourceSquare.Position) &&
+                         attackMove.DestinationSquare.Position.Equals(i_DestinationSquare.Position))
+                    {
+                         isLegalMove = true;
+                    }
+               }
+
+               if (ActiveTeam.AttackMoves.Count == 0)
+               {
+                    foreach (Move regularMove in ActiveTeam.RegularMoves)
+                    {
+                         if (regularMove.SourceSquare.Position.Equals(i_SourceSquare.Position) &&
+                              regularMove.DestinationSquare.Position.Equals(i_DestinationSquare.Position))
+                         {
+                              isLegalMove = true;
+                         }
+                    }
+               }
+
+               return isLegalMove;
+          }
+
           public enum eGameStatus
           {
                InRound,

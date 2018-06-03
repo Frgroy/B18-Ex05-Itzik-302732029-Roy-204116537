@@ -66,6 +66,7 @@ namespace Ex05.WindowsUI
           {
                this.Name = "GameSettings";
                this.Text = "Game Settings";
+               this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
                this.StartPosition = FormStartPosition.CenterScreen;
                initControls();
           }
@@ -154,6 +155,14 @@ namespace Ex05.WindowsUI
           public void AgainstUserModeCheckBox_CheckedChanged(object sender, EventArgs e)
           {
                m_Player2TextBox.Enabled = !m_Player2TextBox.Enabled;
+          }
+
+          protected override void OnClosed(EventArgs e)
+          {
+               if (Player1Name == string.Empty)
+               {
+                    m_Player1TextBox.Text = "Player 1";
+               }
           }
 
           public void DoneButton_Click(object sender, EventArgs e)
