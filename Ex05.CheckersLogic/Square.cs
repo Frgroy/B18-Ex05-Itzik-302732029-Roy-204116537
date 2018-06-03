@@ -11,10 +11,10 @@ namespace B18_Ex02
                private int m_SquareLine;
                private int m_SquareColumm;
 
-               public SquarePosition(int i_squareLine, int i_squareColumn)
+               public SquarePosition(int i_SquareLine, int i_SquareColumn)
                {
-                    m_SquareLine = i_squareLine;
-                    m_SquareColumm = i_squareColumn;
+                    m_SquareLine = i_SquareLine;
+                    m_SquareColumm = i_SquareColumn;
                }
 
                public int x
@@ -95,9 +95,9 @@ namespace B18_Ex02
           {
           }
 
-          public Square(int i_squareLine, int i_squareColumm)
+          public Square(int i_SquareLine, int i_SquareColumm)
           {
-               m_SquarePosition = new SquarePosition(i_squareLine, i_squareColumm);
+               m_SquarePosition = new SquarePosition(i_SquareLine, i_SquareColumm);
                if ((m_SquarePosition.x + m_SquarePosition.y) % 2 == 0)
                {
                     m_SquareColor = eSquareColor.Black;
@@ -108,27 +108,27 @@ namespace B18_Ex02
                }
           }
 
-          public void AssignNeighbour(Square i_neighbourSquare, CheckersGame.ePossibleDirections i_squareDirection)
+          public void AssignNeighbour(Square i_NeighbourSquare, CheckersGame.ePossibleDirections i_SquareDirection)
           {
-               if (i_squareDirection == CheckersGame.ePossibleDirections.UpLeft)
+               if (i_SquareDirection == CheckersGame.ePossibleDirections.UpLeft)
                {
                     m_SquareNeighbours.UpLeft = new Square();
-                    m_SquareNeighbours.UpLeft = i_neighbourSquare;
+                    m_SquareNeighbours.UpLeft = i_NeighbourSquare;
                }
-               else if (i_squareDirection == CheckersGame.ePossibleDirections.UpRight)
+               else if (i_SquareDirection == CheckersGame.ePossibleDirections.UpRight)
                {
                     m_SquareNeighbours.UpRight = new Square();
-                    m_SquareNeighbours.UpRight = i_neighbourSquare;
+                    m_SquareNeighbours.UpRight = i_NeighbourSquare;
                }
-               else if (i_squareDirection == CheckersGame.ePossibleDirections.DownLeft)
+               else if (i_SquareDirection == CheckersGame.ePossibleDirections.DownLeft)
                {
                     m_SquareNeighbours.DownLeft = new Square();
-                    m_SquareNeighbours.DownLeft = i_neighbourSquare;
+                    m_SquareNeighbours.DownLeft = i_NeighbourSquare;
                }
                else
                {
                     m_SquareNeighbours.DownRight = new Square();
-                    m_SquareNeighbours.DownRight = i_neighbourSquare;
+                    m_SquareNeighbours.DownRight = i_NeighbourSquare;
                }
           }
 

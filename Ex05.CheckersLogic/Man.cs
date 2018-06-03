@@ -72,12 +72,12 @@ namespace B18_Ex02
                }
           }
 
-          public Man(Team i_manTeam, Square i_manPosition, Team.eDirectionOfMovement i_manDirection)
+          public Man(Team i_ManTeam, Square i_ManPosition, Team.eDirectionOfMovement i_ManDirection)
           {
-               m_ManTeam = i_manTeam;
-               m_CurrentPosition = i_manPosition;
-               m_ManDirection = i_manDirection;
-               m_ManSign = i_manTeam.Sign;
+               m_ManTeam = i_ManTeam;
+               m_CurrentPosition = i_ManPosition;
+               m_ManDirection = i_ManDirection;
+               m_ManSign = i_ManTeam.Sign;
                m_IsKing = false;
           }
 

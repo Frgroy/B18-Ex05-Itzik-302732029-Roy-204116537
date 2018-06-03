@@ -8,13 +8,13 @@ namespace Ex05.WindowsUI
 {
      public class CheckersForm : Form
      {
-          private Label Player1Label = new Label();
-          private Label Player2Label = new Label();
-          private BoardButton[,] SquareButtons;
+          private readonly GameSettingsForm r_GameSettingsForm = new GameSettingsForm();
+          private Label labelPlayer1 = new Label();
+          private Label labelPlayer2 = new Label();
+          private BoardButton[,] m_SquareButtons;
           private CheckersGame m_Game;
-          private GameSettingsForm m_GameSettingsForm;
           private Square m_SourceSquare = null;
-          
+
           public CheckersForm()
           {
                this.Text = "Checkers";
@@ -30,7 +30,11 @@ namespace Ex05.WindowsUI
 
           private void CheckersForm_Shown(object sender, EventArgs e)
           {
-               m_Game = new CheckersGame(m_GameSettingsForm.Player1Name, m_GameSettingsForm.Player2Name, m_GameSettingsForm.BoardSize, m_GameSettingsForm.GameMode);
+               m_Game = new CheckersGame(
+                    r_GameSettingsForm.Player1Name, 
+                    r_GameSettingsForm.Player2Name, 
+                    r_GameSettingsForm.BoardSize, 
+                    r_GameSettingsForm.GameMode);
                initControls();
                assignMenToButtons();
                updateSourceButtonsAvailability();
@@ -38,28 +42,27 @@ namespace Ex05.WindowsUI
 
           private void CheckersForm_Load(object sender, EventArgs e)
           {
-               m_GameSettingsForm = new GameSettingsForm();
-               m_GameSettingsForm.ShowDialog();
+               r_GameSettingsForm.ShowDialog();
           }
 
           private void initControls()
           {
-               Player1Label.Location = new System.Drawing.Point(80, 6);
-               Player1Label.Text = m_Game.ActiveTeam.Name + ": " + m_Game.ActiveTeam.Score.ToString();
-               this.Controls.Add(this.Player1Label);
+               labelPlayer1.Location = new System.Drawing.Point(80, 6);
+               labelPlayer1.Text = m_Game.ActiveTeam.Name + ": " + m_Game.ActiveTeam.Score.ToString();
+               this.Controls.Add(this.labelPlayer1);
 
-               Player2Label.Location = new System.Drawing.Point(200, 6);
-               Player2Label.Text = m_Game.InactiveTeam.Name + ": " + m_Game.InactiveTeam.Score.ToString();
-               this.Controls.Add(this.Player2Label);
+               labelPlayer2.Location = new System.Drawing.Point(200, 6);
+               labelPlayer2.Text = m_Game.InactiveTeam.Name + ": " + m_Game.InactiveTeam.Score.ToString();
+               this.Controls.Add(this.labelPlayer2);
 
-               SquareButtons = new BoardButton[m_Game.Board.BoardSize, m_Game.Board.BoardSize];
+               m_SquareButtons = new BoardButton[m_Game.Board.BoardSize, m_Game.Board.BoardSize];
                addSquareButtons(m_Game.Board.BoardSize);
           }
 
           private void updateScore()
           {
-               Player1Label.Text = m_Game.ActiveTeam.Name + ": " + m_Game.ActiveTeam.Score.ToString();
-               Player2Label.Text = m_Game.InactiveTeam.Name + ": " + m_Game.InactiveTeam.Score.ToString();
+               labelPlayer1.Text = m_Game.ActiveTeam.Name + ": " + m_Game.ActiveTeam.Score.ToString();
+               labelPlayer2.Text = m_Game.InactiveTeam.Name + ": " + m_Game.InactiveTeam.Score.ToString();
           }
 
           private void addSquareButtons(int i_BoardSize)
@@ -76,18 +79,18 @@ namespace Ex05.WindowsUI
           private void addSquare(int i_RowPosition, int i_ColPosition)
           {
                BoardButton button = new BoardButton(i_RowPosition, i_ColPosition);
-               button.Left = 6 + i_ColPosition * 54;
-               button.Top = 32 + i_RowPosition * 54;
+               button.Left = 6 + (i_ColPosition * 54);
+               button.Top = 32 + (i_RowPosition * 54);
                button.Size = new System.Drawing.Size(54, 54);
                button.Click += new System.EventHandler(BoardButton_Click);
                button.Enabled = false;
                this.Controls.Add(button);
-               SquareButtons[i_RowPosition, i_ColPosition] = button;
+               m_SquareButtons[i_RowPosition, i_ColPosition] = button;
           }
 
           private void assignMenToButtons()
           {
-               foreach (BoardButton button in SquareButtons)
+               foreach (BoardButton button in m_SquareButtons)
                {
                     if (button.Active)
                     {
@@ -97,12 +100,12 @@ namespace Ex05.WindowsUI
 
                foreach (Man man in m_Game.ActiveTeam.ArmyOfMen)
                {
-                    SquareButtons[man.CurrentPosition.Position.y, man.CurrentPosition.Position.x].AddManToButton(man);
+                    m_SquareButtons[man.CurrentPosition.Position.y, man.CurrentPosition.Position.x].AddManToButton(man);
                }
 
                foreach (Man man in m_Game.InactiveTeam.ArmyOfMen)
                {
-                    SquareButtons[man.CurrentPosition.Position.y, man.CurrentPosition.Position.x].AddManToButton(man);
+                    m_SquareButtons[man.CurrentPosition.Position.y, man.CurrentPosition.Position.x].AddManToButton(man);
                }
           }
 
@@ -115,23 +118,23 @@ namespace Ex05.WindowsUI
 
           private void updateSourceButtonsAvailability()
           {
-               foreach (BoardButton button in SquareButtons)
+               foreach (BoardButton button in m_SquareButtons)
                {
                     if (button.Active)
                     {
                          button.Enabled = false;
                     }
                }
-
+               
                foreach (Man man in m_Game.ActiveTeam.ArmyOfMen)
                {
-                    SquareButtons[man.CurrentPosition.Position.y, man.CurrentPosition.Position.x].Enabled = true;
+                    m_SquareButtons[man.CurrentPosition.Position.y, man.CurrentPosition.Position.x].Enabled = true;
                }
           }
 
           private void updateDestinationButtonsAvailability(BoardButton i_BoardButton)
           {
-               foreach (BoardButton button in SquareButtons)
+               foreach (BoardButton button in m_SquareButtons)
                {
                     if (button.Active)
                     {
@@ -147,7 +150,7 @@ namespace Ex05.WindowsUI
                {
                     chooseDestinationSquare(button);
                }
-               else if (m_SourceSquare.Position.Equals(SquareButtons[button.Position.y, button.Position.x].Position))
+               else if (m_SourceSquare.Position.Equals(m_SquareButtons[button.Position.y, button.Position.x].Position))
                {
                     endUserChoise(button);
                }
@@ -161,7 +164,7 @@ namespace Ex05.WindowsUI
           {
                if (m_Game.IsLegalMove(m_SourceSquare, m_Game.Board.GetSquare(i_BoardButton.Position.y, i_BoardButton.Position.x)))
                {
-                    makeAMoveProcess(i_BoardButton);     
+                    makeAMoveProcess(i_BoardButton);
                }
                else
                {
@@ -177,7 +180,6 @@ namespace Ex05.WindowsUI
                {
                     handleProgressiveMove(i_BoardButton);
                }
-
                else
                {
                     if (m_Game.IsEndOfRound())
@@ -195,7 +197,7 @@ namespace Ex05.WindowsUI
           private void handleProgressiveMove(BoardButton i_BoardButton)
           {
                i_BoardButton.BackColor = System.Drawing.Color.NavajoWhite;
-               SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.NavajoWhite;
+               m_SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.NavajoWhite;
                m_SourceSquare = null;
                assignMenToButtons();
                updateSourceButtonsAvailability();
@@ -214,7 +216,7 @@ namespace Ex05.WindowsUI
           private void endUserChoise(BoardButton i_BoardButton)
           {
                i_BoardButton.BackColor = System.Drawing.Color.NavajoWhite;
-               SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.NavajoWhite;
+               m_SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.NavajoWhite;
                m_SourceSquare = null;
                assignMenToButtons();
                updateSourceButtonsAvailability();
@@ -244,10 +246,10 @@ namespace Ex05.WindowsUI
                     assignMenToButtons();
                     updateSourceButtonsAvailability();
                }
+
                if (m_Game.IsEndOfRound())
                {
                     handleEndOfRound();
-
                }
                else
                {
@@ -267,7 +269,7 @@ namespace Ex05.WindowsUI
                     endOfRoundMessage = string.Format(@"{0} Won!{1}Another Round?", m_Game.ActiveTeam.Name, Environment.NewLine);
                }
 
-               DialogResult dialogResult = MessageBox.Show(endOfRoundMessage , "Checkers", MessageBoxButtons.YesNo);
+               DialogResult dialogResult = MessageBox.Show(endOfRoundMessage, "Checkers", MessageBoxButtons.YesNo);
                if (dialogResult == DialogResult.Yes)
                {
                     handleNewRoundRequest();
@@ -311,53 +313,6 @@ namespace Ex05.WindowsUI
                }
 
                return requestedMove;
-          }
-     }
-
-     public class BoardButton : Button
-     {
-          Square.SquarePosition m_Position = new Square.SquarePosition();
-          bool m_IsActive = false;
-
-          public BoardButton(int i_Row, int i_Col)
-          {
-               m_Position.y = i_Row;
-               m_Position.x = i_Col;
-               if ((m_Position.y + m_Position.x) % 2 == 0)
-               {
-                    this.BackColor = System.Drawing.Color.Peru;
-                    this.Enabled = false; 
-               }
-               else
-               {
-                    this.BackColor = System.Drawing.Color.NavajoWhite;
-                    m_IsActive = true;
-               }
-          }
-
-          public bool Active
-          {
-               get { return m_IsActive; }
-          }
-
-          public int Row
-          {
-               get { return m_Position.y; }
-          }
-
-          public int Col
-          {
-               get { return m_Position.x; }
-          }
-
-          public Square.SquarePosition Position
-          {
-               get { return m_Position; }
-          }
-
-          public void AddManToButton(Man i_Man)
-          {
-               this.Text = i_Man.Sign.ToString();
           }
      }
 }

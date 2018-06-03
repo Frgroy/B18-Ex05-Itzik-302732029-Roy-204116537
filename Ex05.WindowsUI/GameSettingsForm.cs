@@ -11,34 +11,32 @@ namespace Ex05.WindowsUI
           private const int k_SmallBoardSize = 6;
           private const int k_MediumBoardSize = 8;
           private const int k_BigBoardSize = 10;
-          private Label m_BoardSizeLabel = new Label();
-          private RadioButton m_6x6Button = new RadioButton();
-          private RadioButton m_8x8Button = new RadioButton();
-          private RadioButton m_10x10Button = new RadioButton();
-          private Label m_PlayersLabel = new Label();
-          private Label m_Player1Label = new Label();
-          private Label m_Player2Label = new Label();
-          private TextBox m_Player1TextBox = new TextBox();
-          private TextBox m_Player2TextBox = new TextBox();
-          private CheckBox m_AgainstUserModeCheckBox = new CheckBox();
-          private Button m_DoneButton = new Button();
+          private Label labelBoardSize = new Label();
+          private RadioButton button6x6 = new RadioButton();
+          private RadioButton button8x8 = new RadioButton();
+          private RadioButton button10x10 = new RadioButton();
+          private Label labelPlayers = new Label();
+          private Label labelPlayer1 = new Label();
+          private Label labelPlayer2 = new Label();
+          private TextBox textBoxPlayer1 = new TextBox();
+          private TextBox textBoxPlayer2 = new TextBox();
+          private CheckBox checkBoxAgainstUserMode = new CheckBox();
+          private Button buttonDone = new Button();
 
           public int BoardSize
           {
                get
                {
                     int boardSize = 0;
-                    if (m_6x6Button.Checked)
+                    if (button6x6.Checked)
                     {
                          boardSize = k_SmallBoardSize;
                     }
-
-                    else if (m_8x8Button.Checked)
+                    else if (button8x8.Checked)
                     {
                          boardSize = k_MediumBoardSize;
                     }
-
-                    else if (m_10x10Button.Checked)
+                    else if (button10x10.Checked)
                     {
                          boardSize = k_BigBoardSize;
                     }
@@ -49,17 +47,17 @@ namespace Ex05.WindowsUI
 
           public string Player1Name
           {
-               get { return m_Player1TextBox.Text; }
+               get { return textBoxPlayer1.Text; }
           }
 
           public string Player2Name
           {
-               get { return m_Player2TextBox.Text; }
+               get { return textBoxPlayer2.Text; }
           }
 
           public CheckersGame.eGameMode GameMode
           {
-               get { return m_AgainstUserModeCheckBox.Checked ? CheckersGame.eGameMode.VersusAnotherPlayer : CheckersGame.eGameMode.VersusComputer; }
+               get { return checkBoxAgainstUserMode.Checked ? CheckersGame.eGameMode.VersusAnotherPlayer : CheckersGame.eGameMode.VersusComputer; }
           }
 
           public GameSettingsForm()
@@ -73,95 +71,95 @@ namespace Ex05.WindowsUI
 
           private void initControls()
           {
-               m_BoardSizeLabel.Location = new System.Drawing.Point(12, 10);
-               m_BoardSizeLabel.Name = "m_BoardSizeLabel";
-               m_BoardSizeLabel.Size = new System.Drawing.Size(80, 14);
-               m_BoardSizeLabel.Text = "Board Size: ";
+               labelBoardSize.Location = new System.Drawing.Point(12, 10);
+               labelBoardSize.Name = "labelBoardSize";
+               labelBoardSize.Size = new System.Drawing.Size(80, 14);
+               labelBoardSize.Text = "Board Size: ";
 
-               m_6x6Button.Location = new System.Drawing.Point(25, 25);
-               m_6x6Button.Name = "m_6x6Button";
-               m_6x6Button.Size = new System.Drawing.Size(48, 17);
-               m_6x6Button.TabStop = true;
-               m_6x6Button.Text = "6 x 6";
-               m_6x6Button.UseVisualStyleBackColor = true;
-               m_6x6Button.Checked = true;
+               button6x6.Location = new System.Drawing.Point(25, 25);
+               button6x6.Name = "button6x6";
+               button6x6.Size = new System.Drawing.Size(48, 17);
+               button6x6.TabStop = true;
+               button6x6.Text = "6 x 6";
+               button6x6.UseVisualStyleBackColor = true;
+               button6x6.Checked = true;
 
-               m_8x8Button.Location = new System.Drawing.Point(80, 25);
-               m_8x8Button.Name = "m_8x8Button";
-               m_8x8Button.Size = new System.Drawing.Size(48, 17);
-               m_8x8Button.TabStop = true;
-               m_8x8Button.Text = "8 x 8";
-               m_8x8Button.UseVisualStyleBackColor = true;
+               button8x8.Location = new System.Drawing.Point(80, 25);
+               button8x8.Name = "button8x8";
+               button8x8.Size = new System.Drawing.Size(48, 17);
+               button8x8.TabStop = true;
+               button8x8.Text = "8 x 8";
+               button8x8.UseVisualStyleBackColor = true;
 
-               m_10x10Button.Location = new System.Drawing.Point(135, 25);
-               m_10x10Button.Name = "m_10x10Button";
-               m_10x10Button.Size = new System.Drawing.Size(60, 17);
-               m_10x10Button.TabStop = true;
-               m_10x10Button.Text = "10 x 10";
-               m_10x10Button.UseVisualStyleBackColor = true;
+               button10x10.Location = new System.Drawing.Point(135, 25);
+               button10x10.Name = "button10x10";
+               button10x10.Size = new System.Drawing.Size(60, 17);
+               button10x10.TabStop = true;
+               button10x10.Text = "10 x 10";
+               button10x10.UseVisualStyleBackColor = true;
 
-               m_PlayersLabel.Location = new System.Drawing.Point(12, 45);
-               m_PlayersLabel.Name = "m_PlayersLabel";
-               m_PlayersLabel.Size = new System.Drawing.Size(50, 14);
-               m_PlayersLabel.Text = "Players: ";
+               labelPlayers.Location = new System.Drawing.Point(12, 45);
+               labelPlayers.Name = "labelPlayers";
+               labelPlayers.Size = new System.Drawing.Size(50, 14);
+               labelPlayers.Text = "Players: ";
 
-               m_Player1Label.Location = new System.Drawing.Point(22, 68);
-               m_Player1Label.Name = "m_Player1Label";
-               m_Player1Label.Size = new System.Drawing.Size(50, 14);
-               m_Player1Label.Text = "Player 1: ";
+               labelPlayer1.Location = new System.Drawing.Point(22, 68);
+               labelPlayer1.Name = "labelPlayer1";
+               labelPlayer1.Size = new System.Drawing.Size(50, 14);
+               labelPlayer1.Text = "Player 1: ";
 
-               m_Player1TextBox.Location = new System.Drawing.Point(109, 65);
-               m_Player1TextBox.Name = "m_Player1TextBox";
-               m_Player1TextBox.Size = new System.Drawing.Size(117, 20);
+               textBoxPlayer1.Location = new System.Drawing.Point(109, 65);
+               textBoxPlayer1.Name = "m_Player1TextBox";
+               textBoxPlayer1.Size = new System.Drawing.Size(117, 20);
 
-               m_AgainstUserModeCheckBox.Location = new System.Drawing.Point(22, 97);
-               m_AgainstUserModeCheckBox.Name = "m_AgainstUserModeCheckBox";
-               m_AgainstUserModeCheckBox.Size = new System.Drawing.Size(15, 14);
-               m_AgainstUserModeCheckBox.UseVisualStyleBackColor = true;
-               m_AgainstUserModeCheckBox.Click += new EventHandler(AgainstUserModeCheckBox_CheckedChanged);
+               checkBoxAgainstUserMode.Location = new System.Drawing.Point(22, 97);
+               checkBoxAgainstUserMode.Name = "m_AgainstUserModeCheckBox";
+               checkBoxAgainstUserMode.Size = new System.Drawing.Size(15, 14);
+               checkBoxAgainstUserMode.UseVisualStyleBackColor = true;
+               checkBoxAgainstUserMode.Click += new EventHandler(AgainstUserModeCheckBox_CheckedChanged);
 
-               m_Player2Label.Location = new System.Drawing.Point(42, 97);
-               m_Player2Label.Name = "m_Player2Label";
-               m_Player2Label.Size = new System.Drawing.Size(50, 14);
-               m_Player2Label.Text = "Player 2: ";
+               labelPlayer2.Location = new System.Drawing.Point(42, 97);
+               labelPlayer2.Name = "labelPlayer2";
+               labelPlayer2.Size = new System.Drawing.Size(50, 14);
+               labelPlayer2.Text = "Player 2: ";
 
-               m_Player2TextBox.Enabled = false;
-               m_Player2TextBox.Location = new System.Drawing.Point(109, 94);
-               m_Player2TextBox.Name = "m_Player2TextBox";
-               m_Player2TextBox.Size = new System.Drawing.Size(117, 20);
-               m_Player2TextBox.Text = "[Computer]";
-               m_DoneButton.Location = new System.Drawing.Point(180, 130);
-               m_DoneButton.Name = "m_DoneButton";
-               m_DoneButton.Size = new System.Drawing.Size(75, 23);
-               m_DoneButton.TabIndex = 10;
-               m_DoneButton.Text = "Done";
-               m_DoneButton.UseVisualStyleBackColor = true;
-               m_DoneButton.Click += new System.EventHandler(DoneButton_Click);
+               textBoxPlayer2.Enabled = false;
+               textBoxPlayer2.Location = new System.Drawing.Point(109, 94);
+               textBoxPlayer2.Name = "textBoxPlayer2";
+               textBoxPlayer2.Size = new System.Drawing.Size(117, 20);
+               textBoxPlayer2.Text = "[Computer]";
+               buttonDone.Location = new System.Drawing.Point(180, 130);
+               buttonDone.Name = "buttonDone";
+               buttonDone.Size = new System.Drawing.Size(75, 23);
+               buttonDone.TabIndex = 10;
+               buttonDone.Text = "Done";
+               buttonDone.UseVisualStyleBackColor = true;
+               buttonDone.Click += new System.EventHandler(DoneButton_Click);
 
                this.ClientSize = new System.Drawing.Size(284, 176);
-               this.Controls.Add(this.m_DoneButton);
-               this.Controls.Add(this.m_AgainstUserModeCheckBox);
-               this.Controls.Add(this.m_Player2TextBox);
-               this.Controls.Add(this.m_Player1TextBox);
-               this.Controls.Add(this.m_Player2Label);
-               this.Controls.Add(this.m_Player1Label);
-               this.Controls.Add(this.m_PlayersLabel);
-               this.Controls.Add(this.m_10x10Button);
-               this.Controls.Add(this.m_8x8Button);
-               this.Controls.Add(this.m_6x6Button);
-               this.Controls.Add(this.m_BoardSizeLabel);
+               this.Controls.Add(this.buttonDone);
+               this.Controls.Add(this.checkBoxAgainstUserMode);
+               this.Controls.Add(this.textBoxPlayer2);
+               this.Controls.Add(this.textBoxPlayer1);
+               this.Controls.Add(this.labelPlayer2);
+               this.Controls.Add(this.labelPlayer1);
+               this.Controls.Add(this.labelPlayers);
+               this.Controls.Add(this.button10x10);
+               this.Controls.Add(this.button8x8);
+               this.Controls.Add(this.button6x6);
+               this.Controls.Add(this.labelBoardSize);
           }
 
           public void AgainstUserModeCheckBox_CheckedChanged(object sender, EventArgs e)
           {
-               m_Player2TextBox.Enabled = !m_Player2TextBox.Enabled;
+               textBoxPlayer2.Enabled = !textBoxPlayer2.Enabled;
           }
 
           protected override void OnClosed(EventArgs e)
           {
                if (Player1Name == string.Empty)
                {
-                    m_Player1TextBox.Text = "Player 1";
+                    textBoxPlayer1.Text = "Player 1";
                }
           }
 
@@ -179,7 +177,7 @@ namespace Ex05.WindowsUI
 
           private bool isFormFulfilled()
           {
-               return (m_Player1TextBox.Text != string.Empty && m_Player2TextBox.Text != string.Empty) ? true : false;
+               return (textBoxPlayer1.Text != string.Empty && textBoxPlayer2.Text != string.Empty) ? true : false;
           }
      }
 }

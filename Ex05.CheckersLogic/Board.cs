@@ -11,24 +11,24 @@
                set { m_BoardSize = value; }
           }
 
-          public char GetSquareContent(int i_boardLine, int i_boardColumn)
+          public char GetSquareContent(int i_BoardLine, int i_BoardColumn)
           {
                char squareContent;
-               if (r_ActualBoard[i_boardLine, i_boardColumn].CurrentMan == null)
+               if (r_ActualBoard[i_BoardLine, i_BoardColumn].CurrentMan == null)
                {
                     squareContent = ' ';
                }
                else
                {
-                    squareContent = r_ActualBoard[i_boardLine, i_boardColumn].CurrentMan.Sign;
+                    squareContent = r_ActualBoard[i_BoardLine, i_BoardColumn].CurrentMan.Sign;
                }
 
                return squareContent;
           }
 
-          public Square GetSquare(int i_boardLine, int i_boardColumn)
+          public Square GetSquare(int i_BoardLine, int i_BoardColumn)
           {
-               return r_ActualBoard[i_boardLine, i_boardColumn];
+               return r_ActualBoard[i_BoardLine, i_BoardColumn];
           }
 
           public Board(int i_BoardSize)
@@ -43,7 +43,7 @@
                     }
                }
 
-               NeighboursAssignation();
+               neighboursAssignation();
           }
 
           public void ClearBoard()
@@ -57,7 +57,7 @@
                }
           }
 
-          private void NeighboursAssignation()
+          private void neighboursAssignation()
           {
                for (int i = 0; i < m_BoardSize; i++)
                {

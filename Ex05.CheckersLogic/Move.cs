@@ -23,24 +23,24 @@ namespace B18_Ex02
                m_DestinationSquare = new Square();
           }
 
-          public Move(Square i_sourceSquare, Square i_destinationSquare)
+          public Move(Square i_SourceSquare, Square i_DestinationSquare)
           {
-               m_SourceSquare = i_sourceSquare;
-               m_DestinationSquare = i_destinationSquare;
+               m_SourceSquare = i_SourceSquare;
+               m_DestinationSquare = i_DestinationSquare;
                m_MoveOption = eMoveOption.Move;
           }
 
-          public Move(Square i_sourceSquare, Square i_capturedSquare, Square i_destinationSquare, eMoveOption i_moveOption)
+          public Move(Square i_SourceSquare, Square i_CapturedSquare, Square i_DestinationSquare, eMoveOption i_MoveOption)
           {
-               m_SourceSquare = i_sourceSquare;
-               m_CapturedSquare = i_capturedSquare;
-               m_DestinationSquare = i_destinationSquare;
-               m_MoveOption = i_moveOption;
+               m_SourceSquare = i_SourceSquare;
+               m_CapturedSquare = i_CapturedSquare;
+               m_DestinationSquare = i_DestinationSquare;
+               m_MoveOption = i_MoveOption;
           }
 
-          public Move(eMoveOption i_moveOption)
+          public Move(eMoveOption i_MoveOption)
           {
-               m_MoveOption = i_moveOption;
+               m_MoveOption = i_MoveOption;
           }
 
           public Square SourceSquare
@@ -60,109 +60,26 @@ namespace B18_Ex02
                get { return m_DestinationSquare; }
                set { m_DestinationSquare = value; }
           }
-/*
-          public new string ToString()
-          {
-               const string seperatorInMoveString = ">";
-               char sourceLengthLetter = (char)(m_SourceSquare.Position.x + (int)'A');
-               char sourceWidthLetter = (char)(m_SourceSquare.Position.y + (int)'a');
-               char destinationLengthLetter = (char)(m_DestinationSquare.Position.x + (int)'A');
-               char destinationWidthLetter = (char)(m_DestinationSquare.Position.y + (int)'a');
-               string stringOfMove = string.Format(
-                    "{1}{2}{0}{3}{4}",
-                    seperatorInMoveString,
-                    sourceLengthLetter.ToString(),
-                    sourceWidthLetter.ToString(),
-                    destinationLengthLetter.ToString(),
-                    destinationWidthLetter.ToString());
 
-               return stringOfMove;
-          }
-
-          public Move Parse(Move.eMoveOption moveOption)
-          {
-               Move requestedPlayerMove = new Move(moveOption);
-
-               return requestedPlayerMove;
-          }
-
-          public Move Parse(string i_userInput, Team i_activeTeam)
-          {
-               string[] splittedInput = i_userInput.Split('>');
-               Square sourceSquare = new Square((int)splittedInput[0][1] - 'a', (int)splittedInput[0][0] - 'A');
-               Square destinationSquare = new Square((int)splittedInput[1][1] - 'a', (int)splittedInput[1][0] - 'A');
-               Move requestedPlayerMove = new Move(sourceSquare, destinationSquare);
-
-               foreach (Move attackMove in i_activeTeam.AttackMoves)
-               {
-                    if (attackMove.SourceSquare.Position.x == sourceSquare.Position.x &&
-                         attackMove.SourceSquare.Position.y == sourceSquare.Position.y &&
-                         attackMove.DestinationSquare.Position.x == destinationSquare.Position.x &&
-                         attackMove.DestinationSquare.Position.y == destinationSquare.Position.y)
-                    {
-                         requestedPlayerMove = attackMove;
-                         requestedPlayerMove.MoveOption = eMoveOption.Attack;
-                    }
-               }
-
-               foreach (Move regularMove in i_activeTeam.RegularMoves)
-               {
-                    if (regularMove.SourceSquare.Position.y == sourceSquare.Position.x &&
-                         regularMove.SourceSquare.Position.y == sourceSquare.Position.y &&
-                         regularMove.DestinationSquare.Position.x == destinationSquare.Position.x &&
-                         regularMove.DestinationSquare.Position.y == destinationSquare.Position.y)
-                    {
-                         requestedPlayerMove = regularMove;
-                         requestedPlayerMove.MoveOption = eMoveOption.Move;
-                    }
-               }
-
-               return requestedPlayerMove;
-          }
-
-          public bool TryParse(string i_userInput, ref Move i_requestedMove, Team i_activeTeam)
-          {
-               bool canConvertInputToMove = false;
-               i_requestedMove = i_requestedMove.Parse(i_userInput, i_activeTeam);
-               if (i_requestedMove.IsLegalMove(ref i_requestedMove, i_activeTeam))
-               {
-                    canConvertInputToMove = true;
-               }
-
-               return canConvertInputToMove;
-          }
-
-          public bool TryParse(Move.eMoveOption moveOption, ref Move i_requestedMove, Team i_activeTeam)
-          {
-               bool canConvertInputToMove = false;
-               if (i_activeTeam.IsTeamCanQuit())
-               {
-                    i_requestedMove = i_requestedMove.Parse(Move.eMoveOption.Quit);
-                    canConvertInputToMove = true;
-               }
-
-               return canConvertInputToMove;
-          }
-*/
-          public bool IsLegalMove(ref Move i_userRequestForMove, Team i_activeTeam)
+          public bool IsLegalMove(ref Move i_UserRequestForMove, Team i_ActiveTeam)
           {
                bool isLegalMove = false;
 
-               isLegalMove = IsAttackMove(i_userRequestForMove, i_activeTeam);
-               if (isLegalMove == false && i_activeTeam.AttackMoves.Count == 0)
+               isLegalMove = IsAttackMove(i_UserRequestForMove, i_ActiveTeam);
+               if (isLegalMove == false && i_ActiveTeam.AttackMoves.Count == 0)
                {
-                    isLegalMove = CheckRegularMoves(ref i_userRequestForMove, i_activeTeam);
+                    isLegalMove = CheckRegularMoves(ref i_UserRequestForMove, i_ActiveTeam);
                }
 
                return isLegalMove;
           }
 
-          public bool IsAttackMove(Move io_userRequestForMove, Team i_activeTeam)
+          public bool IsAttackMove(Move io_UserRequestForMove, Team i_ActiveTeam)
           {
                bool isLegalAttackMove = false;
-               foreach (Move availableMove in i_activeTeam.AttackMoves)
+               foreach (Move availableMove in i_ActiveTeam.AttackMoves)
                {
-                    if (IsMoveMatchToMoveInMovesList(ref io_userRequestForMove, availableMove))
+                    if (IsMoveMatchToMoveInMovesList(ref io_UserRequestForMove, availableMove))
                     {
                          isLegalAttackMove = true;
                     }
@@ -171,12 +88,12 @@ namespace B18_Ex02
                return isLegalAttackMove;
           }
 
-          public bool CheckRegularMoves(ref Move io_userRequestForMove, Team i_activeTeam)
+          public bool CheckRegularMoves(ref Move io_UserRequestForMove, Team i_ActiveTeam)
           {
                bool isLegalRegularMove = false;
-               foreach (Move availableMove in i_activeTeam.RegularMoves)
+               foreach (Move availableMove in i_ActiveTeam.RegularMoves)
                {
-                    if (IsMoveMatchToMoveInMovesList(ref io_userRequestForMove, availableMove))
+                    if (IsMoveMatchToMoveInMovesList(ref io_UserRequestForMove, availableMove))
                     {
                          isLegalRegularMove = true;
                     }
@@ -185,15 +102,15 @@ namespace B18_Ex02
                return isLegalRegularMove;
           }
 
-          public bool IsMoveMatchToMoveInMovesList(ref Move i_userRequestForMove, Move i_availableMove)
+          public bool IsMoveMatchToMoveInMovesList(ref Move i_UserRequestForMove, Move i_AvailableMove)
           {
                bool isMoveMatchToMoveInMovesList = false;
-               if (i_availableMove.m_DestinationSquare.Position.x == i_userRequestForMove.m_DestinationSquare.Position.x &&
-                    i_availableMove.m_DestinationSquare.Position.y == i_userRequestForMove.m_DestinationSquare.Position.y &&
-                    i_availableMove.m_SourceSquare.Position.x == i_userRequestForMove.m_SourceSquare.Position.x &&
-                   i_availableMove.m_SourceSquare.Position.y == i_userRequestForMove.m_SourceSquare.Position.y)
+               if (i_AvailableMove.m_DestinationSquare.Position.x == i_UserRequestForMove.m_DestinationSquare.Position.x &&
+                    i_AvailableMove.m_DestinationSquare.Position.y == i_UserRequestForMove.m_DestinationSquare.Position.y &&
+                    i_AvailableMove.m_SourceSquare.Position.x == i_UserRequestForMove.m_SourceSquare.Position.x &&
+                   i_AvailableMove.m_SourceSquare.Position.y == i_UserRequestForMove.m_SourceSquare.Position.y)
                {
-                    i_userRequestForMove = i_availableMove;
+                    i_UserRequestForMove = i_AvailableMove;
                     isMoveMatchToMoveInMovesList = true;
                }
 
