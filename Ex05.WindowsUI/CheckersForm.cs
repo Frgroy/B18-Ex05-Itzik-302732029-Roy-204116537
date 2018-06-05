@@ -21,7 +21,7 @@ namespace Ex05.WindowsUI
                this.StartPosition = FormStartPosition.Manual;
                this.Left = 20;
                this.Top = 20;
-               this.AutoSize = true; 
+               this.AutoSize = true;
                this.BackColor = System.Drawing.Color.FloralWhite;
                this.FormBorderStyle = FormBorderStyle.FixedSingle;
                this.Load += checkersForm_Load;
@@ -31,9 +31,9 @@ namespace Ex05.WindowsUI
           private void checkersForm_Shown(object sender, EventArgs e)
           {
                m_Game = new CheckersGame(
-                    r_GameSettingsForm.Player1Name, 
-                    r_GameSettingsForm.Player2Name, 
-                    r_GameSettingsForm.BoardSize, 
+                    r_GameSettingsForm.Player1Name,
+                    r_GameSettingsForm.Player2Name,
+                    r_GameSettingsForm.BoardSize,
                     r_GameSettingsForm.GameMode);
                initControls();
                assignMenToButtons();
@@ -113,14 +113,19 @@ namespace Ex05.WindowsUI
 
           private void assignMenToButtons()
           {
-               foreach (Man man in m_Game.ActiveTeam.ArmyOfMen)
+               for (int i = 0; i < m_Game.Board.BoardSize; i++)
                {
-                    m_SquareButtons[man.CurrentPosition.Position.y, man.CurrentPosition.Position.x].AddManToButton(man);
-               }
-
-               foreach (Man man in m_Game.InactiveTeam.ArmyOfMen)
-               {
-                    m_SquareButtons[man.CurrentPosition.Position.y, man.CurrentPosition.Position.x].AddManToButton(man);
+                    for (int j = 0; j < m_Game.Board.BoardSize; j++)
+                    {
+                         if (m_Game.Board.GetSquare(i, j).CurrentMan == null)
+                         {
+                              m_SquareButtons[i, j].BackgroundImage = null;
+                         }
+                         else
+                         {
+                              m_SquareButtons[i, j].AddManToButton(m_Game.Board.GetSquare(i, j).CurrentMan);
+                         }
+                    }
                }
           }
 
@@ -140,7 +145,7 @@ namespace Ex05.WindowsUI
                          button.Enabled = false;
                     }
                }
-               
+
                foreach (Man man in m_Game.ActiveTeam.ArmyOfMen)
                {
                     m_SquareButtons[man.CurrentPosition.Position.y, man.CurrentPosition.Position.x].Enabled = true;
@@ -214,7 +219,6 @@ namespace Ex05.WindowsUI
                i_BoardButton.BackColor = System.Drawing.Color.LightGoldenrodYellow;
                m_SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.LightGoldenrodYellow;
                m_SourceSquare = null;
-               cleanMenFromButtons();
                assignMenToButtons();
                updateSourceButtonsAvailability();
                chooseDestinationSquare(i_BoardButton);
@@ -228,7 +232,7 @@ namespace Ex05.WindowsUI
                i_BoardButton.BackColor = System.Drawing.Color.PaleTurquoise;
                updateDestinationButtonsAvailability(i_BoardButton);
           }
-          
+
           private void cancelChoise(BoardButton i_BoardButton)
           {
                i_BoardButton.BackColor = System.Drawing.Color.LightGoldenrodYellow;
@@ -241,7 +245,6 @@ namespace Ex05.WindowsUI
                i_BoardButton.BackColor = System.Drawing.Color.LightGoldenrodYellow;
                m_SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.LightGoldenrodYellow;
                m_SourceSquare = null;
-               cleanMenFromButtons();
                assignMenToButtons();
                updateSourceButtonsAvailability();
                if (m_Game.ActiveTeam.Type == Team.eTeamType.Computer)
@@ -253,7 +256,6 @@ namespace Ex05.WindowsUI
           private void endComputerTurn()
           {
                m_Game.SwapActiveTeam();
-               cleanMenFromButtons();
                assignMenToButtons();
                updateSourceButtonsAvailability();
           }
@@ -262,14 +264,12 @@ namespace Ex05.WindowsUI
           {
                Move requestedMove = m_Game.GenerateMoveRequest();
                m_Game.MakeAMoveProcess(requestedMove);
-               cleanMenFromButtons();
                assignMenToButtons();
                updateSourceButtonsAvailability();
                while (m_Game.IsProgressiveMoveAvailable(requestedMove))
                {
                     m_Game.GenerateProgressiveAttack(ref requestedMove);
                     m_Game.MakeAMoveProcess(requestedMove);
-                    cleanMenFromButtons();
                     assignMenToButtons();
                     updateSourceButtonsAvailability();
                }
