@@ -233,6 +233,7 @@ namespace Ex05.WindowsUI
           {
                i_BoardButton.BackColor = System.Drawing.Color.LightGoldenrodYellow;
                m_SourceSquare = null;
+               updateSourceButtonsAvailability();
           }
 
           private void endUserChoise(BoardButton i_BoardButton)
