@@ -88,7 +88,19 @@ namespace Ex05.WindowsUI
                m_SquareButtons[i_RowPosition, i_ColPosition] = button;
           }
 
-          private void assignMenToButtons()
+          private void cleanMenFromButtons()
+          {
+               foreach (BoardButton button in m_SquareButtons)
+               {
+                    if (button.Active && button.BackgroundImage != null &&
+                         m_Game.Board.GetSquare(button.Position.y, button.Position.x).CurrentMan == null)
+                    {
+                         resetActiveButton(button);
+                    }
+               }
+          }
+
+          private void clearAllMenFromButtons()
           {
                foreach (BoardButton button in m_SquareButtons)
                {
@@ -97,7 +109,10 @@ namespace Ex05.WindowsUI
                          resetActiveButton(button);
                     }
                }
+          }
 
+          private void assignMenToButtons()
+          {
                foreach (Man man in m_Game.ActiveTeam.ArmyOfMen)
                {
                     m_SquareButtons[man.CurrentPosition.Position.y, man.CurrentPosition.Position.x].AddManToButton(man);
@@ -199,9 +214,9 @@ namespace Ex05.WindowsUI
                i_BoardButton.BackColor = System.Drawing.Color.LightGoldenrodYellow;
                m_SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.LightGoldenrodYellow;
                m_SourceSquare = null;
+               cleanMenFromButtons();
                assignMenToButtons();
                updateSourceButtonsAvailability();
-               this.Update();
                chooseDestinationSquare(i_BoardButton);
                i_BoardButton.BackColor = System.Drawing.Color.Firebrick;
                i_BoardButton.Enabled = false;
@@ -225,6 +240,7 @@ namespace Ex05.WindowsUI
                i_BoardButton.BackColor = System.Drawing.Color.LightGoldenrodYellow;
                m_SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.LightGoldenrodYellow;
                m_SourceSquare = null;
+               cleanMenFromButtons();
                assignMenToButtons();
                updateSourceButtonsAvailability();
                if (m_Game.ActiveTeam.Type == Team.eTeamType.Computer)
@@ -236,7 +252,7 @@ namespace Ex05.WindowsUI
           private void endComputerTurn()
           {
                m_Game.SwapActiveTeam();
-               this.Update();
+               cleanMenFromButtons();
                assignMenToButtons();
                updateSourceButtonsAvailability();
           }
@@ -245,12 +261,14 @@ namespace Ex05.WindowsUI
           {
                Move requestedMove = m_Game.GenerateMoveRequest();
                m_Game.MakeAMoveProcess(requestedMove);
+               cleanMenFromButtons();
                assignMenToButtons();
                updateSourceButtonsAvailability();
                while (m_Game.IsProgressiveMoveAvailable(requestedMove))
                {
                     m_Game.GenerateProgressiveAttack(ref requestedMove);
                     m_Game.MakeAMoveProcess(requestedMove);
+                    cleanMenFromButtons();
                     assignMenToButtons();
                     updateSourceButtonsAvailability();
                }
@@ -291,6 +309,7 @@ namespace Ex05.WindowsUI
           private void handleNewRoundRequest()
           {
                m_Game.CreateNewRound();
+               clearAllMenFromButtons();
                assignMenToButtons();
                updateSourceButtonsAvailability();
                m_SourceSquare = null;
