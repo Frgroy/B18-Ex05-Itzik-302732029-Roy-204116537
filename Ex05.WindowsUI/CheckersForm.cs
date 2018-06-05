@@ -88,29 +88,6 @@ namespace Ex05.WindowsUI
                m_SquareButtons[i_RowPosition, i_ColPosition] = button;
           }
 
-          private void cleanMenFromButtons()
-          {
-               foreach (BoardButton button in m_SquareButtons)
-               {
-                    if (button.Active && button.BackgroundImage != null &&
-                         m_Game.Board.GetSquare(button.Position.y, button.Position.x).CurrentMan == null)
-                    {
-                         resetActiveButton(button);
-                    }
-               }
-          }
-
-          private void clearAllMenFromButtons()
-          {
-               foreach (BoardButton button in m_SquareButtons)
-               {
-                    if (button.Active)
-                    {
-                         resetActiveButton(button);
-                    }
-               }
-          }
-
           private void assignMenToButtons()
           {
                for (int i = 0; i < m_Game.Board.BoardSize; i++)
@@ -265,7 +242,7 @@ namespace Ex05.WindowsUI
                Move requestedMove = m_Game.GenerateMoveRequest();
                m_Game.MakeAMoveProcess(requestedMove);
                assignMenToButtons();
-               updateSourceButtonsAvailability();
+              updateSourceButtonsAvailability();
                while (m_Game.IsProgressiveMoveAvailable(requestedMove))
                {
                     m_Game.GenerateProgressiveAttack(ref requestedMove);
@@ -307,10 +284,21 @@ namespace Ex05.WindowsUI
                }
           }
 
+          private void cleanAllButtons()
+          {
+               foreach (BoardButton button in m_SquareButtons)
+               {
+                    if (button.Enabled)
+                    {
+                         resetActiveButton(button);
+                    }
+               }
+          }
+
           private void handleNewRoundRequest()
           {
                m_Game.CreateNewRound();
-               clearAllMenFromButtons();
+               cleanAllButtons();
                assignMenToButtons();
                updateSourceButtonsAvailability();
                m_SourceSquare = null;
