@@ -212,7 +212,6 @@ namespace Ex05.WindowsUI
                m_SourceSquare = m_Game.Board.GetSquare(i_BoardButton.Position.y, i_BoardButton.Position.x);
                i_BoardButton.BackColor = System.Drawing.Color.PaleTurquoise;
                updateDestinationButtonsAvailability(i_BoardButton);
-             //  this.Update();
           }
           
           private void cancelChoise(BoardButton i_BoardButton)
@@ -221,19 +220,13 @@ namespace Ex05.WindowsUI
                m_SourceSquare = null;
           }
 
-          private void moveManOnBoard(BoardButton i_BoardButton)
-          {
-               resetActiveButton(m_SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x]);
-               m_SourceSquare = null;
-               i_BoardButton.BackColor = System.Drawing.Color.LightGoldenrodYellow;
-               i_BoardButton.AddManToButton(m_Game.Board.GetSquare(i_BoardButton.Position.y, i_BoardButton.Position.x).CurrentMan);
-               updateSourceButtonsAvailability();
-
-          }
-
           private void endUserChoise(BoardButton i_BoardButton)
           {
-               moveManOnBoard(i_BoardButton);
+               i_BoardButton.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+               m_SquareButtons[m_SourceSquare.Position.y, m_SourceSquare.Position.x].BackColor = System.Drawing.Color.LightGoldenrodYellow;
+               m_SourceSquare = null;
+               assignMenToButtons();
+               updateSourceButtonsAvailability();
                if (m_Game.ActiveTeam.Type == Team.eTeamType.Computer)
                {
                     makeComputerMove();
