@@ -203,7 +203,7 @@ namespace Ex05.WindowsUI
                updateSourceButtonsAvailability();
                this.Update();
                chooseDestinationSquare(i_BoardButton);
-               i_BoardButton.BackColor = System.Drawing.Color.Linen;
+               i_BoardButton.BackColor = System.Drawing.Color.Firebrick;
                i_BoardButton.Enabled = false;
           }
 

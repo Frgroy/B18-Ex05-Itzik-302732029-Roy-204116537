@@ -56,19 +56,23 @@ namespace Ex05.WindowsUI
                switch (i_Man.Sign)
                {
                     case 'O':
-                         manImage = Image.FromFile(@"C:\Users\user\Documents\Visual Studio 2015\Projects\B18 Ex05 Itzik 302732029 Roy 204116537\whiteMan.png");
+                         //manImage = Image.FromFile(@"C:\Users\user\Documents\Visual Studio 2015\Projects\B18 Ex05 Itzik 302732029 Roy 204116537\whiteMan.png");
+                         manImage = Ex05.WindowsUI.Properties.Resources.whiteMan;
                          this.BackgroundImage = manImage;
                          break;
                     case 'X':
-                         manImage = Image.FromFile(@"C:\Users\user\Documents\Visual Studio 2015\Projects\B18 Ex05 Itzik 302732029 Roy 204116537\blackMan.png");
+                         //manImage = Image.FromFile(@"C:\Users\user\Documents\Visual Studio 2015\Projects\B18 Ex05 Itzik 302732029 Roy 204116537\blackMan.png");
+                         manImage = Ex05.WindowsUI.Properties.Resources.blackMan;
                          this.BackgroundImage = manImage;
                          break;
                     case 'K':
-                         manImage = Image.FromFile(@"C:\Users\user\Documents\Visual Studio 2015\Projects\B18 Ex05 Itzik 302732029 Roy 204116537\blackKing.png");
+                         //manImage = Image.FromFile(@"C:\Users\user\Documents\Visual Studio 2015\Projects\B18 Ex05 Itzik 302732029 Roy 204116537\blackKing.png");
+                         manImage = Ex05.WindowsUI.Properties.Resources.blackKing;
                          this.BackgroundImage = manImage;
                          break;
                     case 'U':
-                         manImage = Image.FromFile(@"C:\Users\user\Documents\Visual Studio 2015\Projects\B18 Ex05 Itzik 302732029 Roy 204116537\whiteKing.png");
+                         // manImage = Image.FromFile(@"C:\Users\user\Documents\Visual Studio 2015\Projects\B18 Ex05 Itzik 302732029 Roy 204116537\whiteKing.png");
+                         manImage = Ex05.WindowsUI.Properties.Resources.whiteKing;
                          this.BackgroundImage = manImage;
                          break;
                }
