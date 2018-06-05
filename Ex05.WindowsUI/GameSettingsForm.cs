@@ -134,7 +134,7 @@ namespace Ex05.WindowsUI
                buttonDone.TabIndex = 10;
                buttonDone.Text = "Done";
                buttonDone.UseVisualStyleBackColor = true;
-               buttonDone.Click += new System.EventHandler(DoneButton_Click);
+               buttonDone.Click += new System.EventHandler(doneButton_Click);
 
                this.ClientSize = new System.Drawing.Size(284, 176);
                this.Controls.Add(this.buttonDone);
@@ -161,9 +161,14 @@ namespace Ex05.WindowsUI
                {
                     textBoxPlayer1.Text = "Player 1";
                }
+
+               if (Player2Name == string.Empty)
+               {
+                    textBoxPlayer1.Text = "Player 2";
+               }
           }
 
-          public void DoneButton_Click(object sender, EventArgs e)
+          public void doneButton_Click(object sender, EventArgs e)
           {
                if (isFormFulfilled())
                {
