@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using B18_Ex02;
 using System.Drawing;
+using B18_Ex02;
 
 namespace Ex05.WindowsUI
 {
@@ -52,31 +52,30 @@ namespace Ex05.WindowsUI
           public void AddManToButton(Man i_Man)
           {
                Image manImage;
-
-               switch (i_Man.Sign)
+               if (i_Man.Team.Sign == Team.eTeamSign.X)
                {
-                    case 'O':
-                         //manImage = Image.FromFile(@"C:\Users\user\Documents\Visual Studio 2015\Projects\B18 Ex05 Itzik 302732029 Roy 204116537\whiteMan.png");
-                         manImage = Ex05.WindowsUI.Properties.Resources.whiteMan;
-                         this.BackgroundImage = manImage;
-                         break;
-                    case 'X':
-                         //manImage = Image.FromFile(@"C:\Users\user\Documents\Visual Studio 2015\Projects\B18 Ex05 Itzik 302732029 Roy 204116537\blackMan.png");
-                         manImage = Ex05.WindowsUI.Properties.Resources.blackMan;
-                         this.BackgroundImage = manImage;
-                         break;
-                    case 'K':
-                         //manImage = Image.FromFile(@"C:\Users\user\Documents\Visual Studio 2015\Projects\B18 Ex05 Itzik 302732029 Roy 204116537\blackKing.png");
+                    if (i_Man.IsKing)
+                    {
                          manImage = Ex05.WindowsUI.Properties.Resources.blackKing;
-                         this.BackgroundImage = manImage;
-                         break;
-                    case 'U':
-                         // manImage = Image.FromFile(@"C:\Users\user\Documents\Visual Studio 2015\Projects\B18 Ex05 Itzik 302732029 Roy 204116537\whiteKing.png");
+                    }
+                    else
+                    {
+                         manImage = Ex05.WindowsUI.Properties.Resources.blackMan;
+                    }
+               }
+               else
+               {
+                    if (i_Man.IsKing)
+                    {
                          manImage = Ex05.WindowsUI.Properties.Resources.whiteKing;
-                         this.BackgroundImage = manImage;
-                         break;
+                    }
+                    else
+                    {
+                         manImage = Ex05.WindowsUI.Properties.Resources.whiteMan;
+                    }
                }
 
+               this.BackgroundImage = manImage;
           }
      }
 }

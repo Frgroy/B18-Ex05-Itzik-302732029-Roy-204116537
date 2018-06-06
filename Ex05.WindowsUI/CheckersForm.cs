@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using B18_Ex02;
 using System.Drawing;
+using B18_Ex02;
 
 namespace Ex05.WindowsUI
 {
