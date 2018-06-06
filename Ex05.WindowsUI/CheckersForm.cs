@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using B18_Ex02;
+using System.Drawing;
 
 namespace Ex05.WindowsUI
 {
@@ -47,12 +48,16 @@ namespace Ex05.WindowsUI
 
           private void initControls()
           {
-               labelPlayer1.Location = new System.Drawing.Point(80, 6);
+               labelPlayer1.Font = new Font("Corbel", 11, FontStyle.Bold);
+               labelPlayer1.Location = new System.Drawing.Point(30, 6);
                labelPlayer1.Text = m_Game.ActiveTeam.Name + ": " + m_Game.ActiveTeam.Score.ToString();
+               labelPlayer1.AutoSize = true;
                this.Controls.Add(this.labelPlayer1);
 
+               labelPlayer2.Font = new Font("Corbel", 11, FontStyle.Bold);
                labelPlayer2.Location = new System.Drawing.Point(260, 6);
                labelPlayer2.Text = m_Game.InactiveTeam.Name + ": " + m_Game.InactiveTeam.Score.ToString();
+               labelPlayer2.AutoSize = true;
                this.Controls.Add(this.labelPlayer2);
 
                m_SquareButtons = new BoardButton[m_Game.Board.BoardSize, m_Game.Board.BoardSize];
